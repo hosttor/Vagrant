@@ -1,0 +1,25 @@
+//see list if boxes
+vagrant box list http://vagrantbox.es
+
+//ubuntu/trusty64 box
+ubuntu/trusty64: https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box
+
+//add box
+vagrant box add ubuntu/trusty64
+
+//remove box 
+vagrant box remove {box name} virtual box
+
+//edit vagrant directory on apache2
+sudo nano /etc/apache2/sites-enabled/000-default.conf
+
+//change path from /var/www/html to /vagrant
+<DocumentRoot /vagrant>
+
+
+//add this script
+ <Directory /vagrant>
+     Options -Indexes +FollowSymlinks +MultiViews
+     AllowOverride All
+     Require all granted
+ </Directory>
