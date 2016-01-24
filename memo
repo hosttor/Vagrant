@@ -1,48 +1,25 @@
+//see list if boxes
+vagrant box list http://vagrantbox.es
 
-//create a bootable os
-lsblk
-sudo umount /dev/sdb1
-sudo dd bs=4M if=/path/to/distro.iso of=/dev/sdb && sync
+//ubuntu/trusty64 box
+ubuntu/trusty64: https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box
 
-//command
-netstat -an |more, uptime, w, whoami, uname, free, top, ps -ux, ps -aux, fdisk -l
+//add box
+vagrant box add ubuntu/trusty64
 
-//install gnome3
-sudo add-apt-repository ppa:gnome3-team/gnome3
-gksu apt-get update
-apt-get dist-upgrade
-apt-get install gnome-shell
+//remove box 
+vagrant box remove {box name} virtual box
 
-//reduce overheating
-add-apt-repository ppa:linrunner/tlp
-apt-get update
-apt-get install tlp tlp-rdw
-tlp start
+//edit vagrant directory on apache2
+sudo nano /etc/apache2/sites-enabled/000-default.conf
 
-//install simple screen recorder
-add-apt-repository ppa:maarten-baert/simplescreenrecorder
-apt-get update
-apt-get install simplescreenrecorder
+//change path from /var/www/html to /vagrant
+<DocumentRoot /vagrant>
 
-//setup server
-lamp-stack^ or apache2 mysql-server mysql-client phpmyadmin
-php5 libapache2-mod-php5 php5-gd php-db php5-mysql php5-dev php-pear php5-curl php5-intl php5-mcrypt php5-imagick git drush
 
-//setup composer
-curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
-
-//setup upload progress
-sudo pecl install uploadprogress //Note Open: /etc/php5/apache2/php.ini and add "extension=uploadprogress.so" //to php.ini
-
-//file manager
-bunzip2
-gunzip file.tar.gz #remove gz
-tar -xvf #remove tar
-tar cvzf file.tar.gz file
-
-//create zip file
-make zip file: zip -r dir.zip dir
-
-//rsync 
-sudo rsync -avzhe ssh user@host:~/url/file ~/Downloads/
-sudo rsync -avzhe ssh ~/Downloads/ user@host:~/url/file
+//add this script
+ <Directory /vagrant>
+     Options -Indexes +FollowSymlinks +MultiViews
+     AllowOverride All
+     Require all granted
+ </Directory>
